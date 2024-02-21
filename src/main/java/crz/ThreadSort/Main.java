@@ -1,9 +1,8 @@
 
 package crz.ThreadSort;
 
-import java.util.Arrays;
 import java.util.Random;
-import java.lang.Thread;
+import java.util.Arrays;
 
 /**
  * Hello world!
@@ -40,10 +39,10 @@ public class Main
         for(int i=0; i< testData.length; i++)
             testData[i] = rng.nextInt(min, max);
 
-        int threadCount = 5;
+        int threadCount = 4;
         int remainingIntegers = arraySize;
         int partitionSize = arraySize / threadCount;
-        int[] startIndexes = new int[5];
+        int[] startIndexes = new int[threadCount];
 
         Thread[] threadArray = new Thread[threadCount];
         for (int i = 0; i < threadCount-1; i++)
@@ -55,7 +54,10 @@ public class Main
             remainingIntegers -= partitionSize;
         }
 
+        System.out.println();
+
         SortingThread st = new SortingThread(testData, partitionSize*(threadCount-1), partitionSize*(threadCount-1)+remainingIntegers );
+        startIndexes[threadCount - 1] = partitionSize * (threadCount-1);
         threadArray[threadCount-1] = new Thread(st);
         threadArray[threadCount-1].start();
         
@@ -71,9 +73,9 @@ public class Main
             return;
         }
 
-        System.out.println(Arrays.toString(testData));
         System.out.println();
-        System.out.println(Arrays.toString(startIndexes));
+        System.out.println("Global Array Indiv Sort " + Arrays.toString(testData));
+        System.out.println();
 
         Integer[] sortedArray = new Integer[arraySize];
         Thread mergingThread = new Thread( new MergingThread(testData, sortedArray, startIndexes));
@@ -88,6 +90,8 @@ public class Main
             System.err.println("FAILED TO JOIN THREADS");
             return;
         }
+
+        System.out.println(Arrays.toString(sortedArray));
 
     }
 

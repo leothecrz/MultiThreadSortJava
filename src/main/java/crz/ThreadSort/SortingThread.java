@@ -1,8 +1,8 @@
 
 package crz.ThreadSort;
 
-import java.lang.Thread;
 import java.util.Stack;
+import java.lang.Thread;
 
 /**
  * 
@@ -34,14 +34,14 @@ class SortingThread implements Runnable
     public void run()
     {
 
-        for(int i=startIndex; i<endIndex; i++)
-            System.out.println("ThreadID: " + String.valueOf( Thread.currentThread().getName() ) + " - " + toSortArray[i]);        
+        //for(int i=startIndex; i<endIndex; i++)
+        //    System.out.println("ThreadID: " + String.valueOf( Thread.currentThread().getName() ) + " - " + toSortArray[i]);        
 
         quickSort(toSortArray, startIndex, endIndex-1);
         System.out.println("ThreadID: " + String.valueOf( Thread.currentThread().getName() ) + " SORTED " );    
 
-        for(int i=startIndex; i<endIndex; i++)
-            System.out.println("ThreadID: " + String.valueOf( Thread.currentThread().getName() ) + " - " + (i - startIndex) + " : " + toSortArray[i]);
+        //for(int i=startIndex; i<endIndex; i++)
+        //   System.out.println("ThreadID: " + String.valueOf( Thread.currentThread().getName() ) + " - " + (i - startIndex) + " : " + toSortArray[i]);
         
     }
 
