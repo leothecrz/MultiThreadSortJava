@@ -4,8 +4,6 @@ package crz.ThreadSort;
 import java.util.Arrays;
 import java.util.Random;
 import java.lang.Thread;
-import java.lang.reflect.Array;
-
 
 /**
  * Hello world!
@@ -22,11 +20,9 @@ public class Main
             System.err.println("invalid arg count");
             return;
         }
-
         int arraySize = 0;
         int min = 0;
         int max = 0;
-
         try 
         {
             arraySize = Integer.parseInt(args[0]);
@@ -40,14 +36,11 @@ public class Main
         }
         
         Random rng = new Random(System.currentTimeMillis());
-
-
         Integer[] testData= new Integer[arraySize];
         for(int i=0; i< testData.length; i++)
             testData[i] = rng.nextInt(min, max);
 
         int threadCount = 5;
-
         int remainingIntegers = arraySize;
         int partitionSize = arraySize / threadCount;
         int[] startIndexes = new int[5];
@@ -82,7 +75,8 @@ public class Main
         System.out.println();
         System.out.println(Arrays.toString(startIndexes));
 
-        Thread mergingThread = new Thread( new MergingThread(testData, startIndexes));
+        Integer[] sortedArray = new Integer[arraySize];
+        Thread mergingThread = new Thread( new MergingThread(testData, sortedArray, startIndexes));
         mergingThread.start();
         try 
         {
