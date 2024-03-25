@@ -5,21 +5,16 @@ import java.util.Stack;
 import java.lang.Thread;
 
 /**
- * 
+ * Class representing a thread responsible for sorting a partition using QuickSort algorithm
  */
 class SortingThread implements Runnable
 {
 
-    private Integer[] toSortArray;
-    private int startIndex;
-    private int endIndex;
+    private Integer[] toSortArray; // Reference to the array to be sorted
+    private int startIndex; // Start index of the partition to be sorted
+    private int endIndex; // End index of the partition to be sorted
 
-    /**
-     * 
-     * @param ref
-     * @param start
-     * @param end
-     */
+    // Constructor to initialize the sorting thread with the partition to be sorted
     public SortingThread(Integer[] ref, int start, int end)
     {
         toSortArray = ref;
@@ -27,35 +22,20 @@ class SortingThread implements Runnable
         endIndex = end;
     }
 
-    /**
-     * 
-     */
+    // Method to execute the sorting thread
     @Override
     public void run()
     {
-
-        //for(int i=startIndex; i<endIndex; i++)
-        //    System.out.println("ThreadID: " + String.valueOf( Thread.currentThread().getName() ) + " - " + toSortArray[i]);        
-
         quickSort(toSortArray, startIndex, endIndex-1);
         System.out.println("ThreadID: " + String.valueOf( Thread.currentThread().getName() ) + " SORTED " );    
-
-        //for(int i=startIndex; i<endIndex; i++)
-        //   System.out.println("ThreadID: " + String.valueOf( Thread.currentThread().getName() ) + " - " + (i - startIndex) + " : " + toSortArray[i]);
-        
     }
 
-    /**
-     * 
-     * @param ref
-     * @param low
-     * @param high
-     * @return
-     */
+    // Method to select a pivot element for QuickSort
     private int selectPivot(Integer[] ref, int low, int high)
     {
         int midPoint = (low + high) / 2;
         
+		// Ensuring the median-of-three pivot selection
         if(ref[low] > ref[midPoint])
             swap(ref, low, midPoint);
         
@@ -69,13 +49,7 @@ class SortingThread implements Runnable
         return ref[high];
     }
 
-    /**
-     * 
-     * @param ref
-     * @param low
-     * @param high
-     * @return
-     */
+    // Method to partition the array for QuickSort
     private int partition(Integer[] ref, int low, int high)
     {
 
@@ -95,12 +69,7 @@ class SortingThread implements Runnable
         return i+1;
     }
 
-    /**
-     * 
-     * @param ref
-     * @param low
-     * @param high
-     */
+    // Method to perform QuickSort iteratively
     private void quickSort(Integer[] ref, int low, int high)
     {
 
@@ -129,7 +98,8 @@ class SortingThread implements Runnable
 
         }
     }
-
+	
+    // Method to swap elements in the array
     public void swap(Integer[] intArray, int index1, int index2) 
     {
         int temp = intArray[index1];

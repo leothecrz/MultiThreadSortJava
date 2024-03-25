@@ -11,26 +11,41 @@ import java.util.Arrays;
 public class Main 
 {
 
+	private static void displayHelp() {
+        System.out.println("Usage: java -jar MultiThreadSort.jar <Thread Count> <ArraySize> <RNG-MIN> <RNG-MAX>");
+        System.out.println("Options:");
+		System.out.println("\t <Thread Count> -> Number of threads to use on the array. The array will be partioned as evenly as possible among all threads.");
+		System.out.println("\t <ArraySize> -> Size of the Random Data Array");
+		System.out.println("\t <RNG-MIN> -> Minimum value for random values in data array.");
+		System.out.println("\t <RNG-MAX> -> Minimum value for random values in data array.");
+
+    }
+
     public static void main( String[] args )
     { 
 
-        if(args.length < 3)
+        if(args.length < 4)
         {
-            System.err.println("invalid arg count");
+			displayHelp();
             return;
         }
+        int threadCount = 0;
         int arraySize = 0;
         int min = 0;
         int max = 0;
         try 
         {
-            arraySize = Integer.parseInt(args[0]);
-            min = Integer.parseInt(args[1]);
-            max = Integer.parseInt(args[2]);
+            threadCount = Integer.parseInt(args[0]);
+            arraySize = Integer.parseInt(args[1]);
+            min = Integer.parseInt(args[2]);
+            max = Integer.parseInt(args[3]);
         } 
         catch (NumberFormatException e) 
         {
             System.err.println("args were not integers.");
+			System.err.println( e.getLocalizedMessage() );
+			System.err.println();
+			displayHelp();
             return;
         }
         
@@ -39,7 +54,9 @@ public class Main
         for(int i=0; i< testData.length; i++)
             testData[i] = rng.nextInt(min, max);
 
-        int threadCount = 4;
+        System.out.println("\nGlobal Array Unsorted: " + Arrays.toString(testData) + "\n");
+
+
         int remainingIntegers = arraySize;
         int partitionSize = arraySize / threadCount;
         int[] startIndexes = new int[threadCount];
@@ -53,9 +70,6 @@ public class Main
             threadArray[i].start();
             remainingIntegers -= partitionSize;
         }
-
-        System.out.println();
-
         SortingThread st = new SortingThread(testData, partitionSize*(threadCount-1), partitionSize*(threadCount-1)+remainingIntegers );
         startIndexes[threadCount - 1] = partitionSize * (threadCount-1);
         threadArray[threadCount-1] = new Thread(st);
@@ -73,9 +87,7 @@ public class Main
             return;
         }
 
-        System.out.println();
-        System.out.println("Global Array Indiv Sort " + Arrays.toString(testData));
-        System.out.println();
+        System.out.println("\nGlobal Array Indiv Sort " + Arrays.toString(testData) + "\n");
 
         Integer[] sortedArray = new Integer[arraySize];
         Thread mergingThread = new Thread( new MergingThread(testData, sortedArray, startIndexes));

@@ -1,12 +1,14 @@
 
 package crz.ThreadSort;
 
+// Class representing a pair of value and its corresponding index
 class ValuePair implements Comparable<ValuePair>
 {
 
   private int value;
   private int index;
 
+  // Constructor to initialize the value pair
   public ValuePair(int value, int index)
   {
 
@@ -25,6 +27,7 @@ class ValuePair implements Comparable<ValuePair>
     return index;
   }
 
+  // Method to compare two ValuePairs based ONLY on their values
   @Override
   public int compareTo(ValuePair vp)
   {
